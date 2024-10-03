@@ -37,3 +37,17 @@ if(isset($_POST["login"])){
     header("location: .");
     exit;
 }
+
+// Fonction pour récupérer toutes les réservations
+function getAllReservations() {
+    global $pdo;
+    
+    $query = "
+        SELECT r.numReservation, c.nom, c.prenom, r.numChambre, r.dateArrivee, r.dateDepart
+        FROM reservation r
+        JOIN client c ON r.numClient = c.numClient
+        ORDER BY r.dateArrivee DESC";
+    
+    $stmt = $pdo->query($query);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
